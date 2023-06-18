@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const Campground = require("./models/campground");
+const methodOverride = require("method-override");
 
 // mongoose and mongoDB connection
 mongoose
@@ -16,6 +17,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride("_method"));
 
 app.get("/", (req, res) => {
   res.render("home");
@@ -45,6 +47,31 @@ app.get("/campgrounds/:id", async (req, res) => {
 
   const campground = await Campground.findById(id);
   res.render("campgrounds/show", { campground });
+});
+
+app.get("/campgrounds/:id/edit", async (req, res) => {
+  const {
+    params: { id },
+  } = req;
+
+  const campground = await Campground.findById(id);
+  res.render("campgrounds/edit", { campground });
+});
+
+app.put("/campgrounds/:id", async (req, res) => {
+  const {
+    params: { id },
+  } = req;
+
+  const campground = await Campground.findByIdAndUpdate(id, {
+    ...req.body.campground,
+  });
+
+  // const campground = await Campground.findByIdAndUpdate(id, {
+  //   ...req.body.campground,
+  // }, { new: true });
+
+  res.redirect(`/campgrounds/${campground._id}`);
 });
 
 app.listen(PORT, () => console.log(`Server Listening on PORT : ${PORT}`));
