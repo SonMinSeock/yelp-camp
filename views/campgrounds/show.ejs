@@ -11,6 +11,12 @@
     <p>
       <a href="/campgrounds/<%=campground._id%>/edit">Edit Campground</a>
     </p>
+    <form
+      method="post"
+      action="/campgrounds/<%=campground._id%>?_method=DELETE"
+    >
+      <input type="submit" value="Delete Campground" />
+    </form>
     <footer>
       <a href="/campgrounds">All Campgrounds</a>
     </footer>
