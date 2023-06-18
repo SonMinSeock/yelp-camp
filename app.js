@@ -25,4 +25,13 @@ app.get("/campgrounds", async (req, res) => {
   res.render("campgrounds/index", { campgrounds });
 });
 
+app.get("/campgrounds/:id", async (req, res) => {
+  const {
+    params: { id },
+  } = req;
+
+  const campground = await Campground.findById(id);
+  res.render("campgrounds/show", { campground });
+});
+
 app.listen(PORT, () => console.log(`Server Listening on PORT : ${PORT}`));
