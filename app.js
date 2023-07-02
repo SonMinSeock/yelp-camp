@@ -114,7 +114,9 @@ app.all("*", (req, res, next) => {
 
 app.use((err, req, res, next) => {
   const { message, statusCode = 500 } = err;
-  res.status(statusCode).send(message);
+
+  if (!err.message) err.message = "On No, Something went Worng!";
+  res.status(statusCode).render("error", { err });
 });
 
 app.listen(PORT, () => console.log(`Server Listening on PORT : ${PORT}`));
