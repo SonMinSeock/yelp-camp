@@ -89,7 +89,8 @@ app.get(
       params: { id },
     } = req;
 
-    const campground = await Campground.findById(id);
+    const campground = await Campground.findById(id).populate("reviews");
+
     res.render("campgrounds/show", { campground });
   })
 );
