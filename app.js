@@ -6,7 +6,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync");
 const ExpressError = require("./utils/ExpressError");
-const { campgroundSchema } = require("./schema");
+const { campgroundSchema, reviewSchema } = require("./schema");
 const Review = require("./models/review");
 
 // mongoose and mongoDB connection
@@ -27,6 +27,19 @@ app.use(methodOverride("_method"));
 
 const validateCampground = (req, res, next) => {
   const result = campgroundSchema.validate(req.body);
+
+  const { error } = result;
+
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+};
+
+const validateReview = (req, res, next) => {
+  const result = reviewSchema.validate(req.body);
 
   const { error } = result;
 
@@ -126,7 +139,7 @@ app.delete(
   })
 );
 
-app.post("/campgrounds/:id/reviews", async (req, res) => {
+app.post("/campgrounds/:id/reviews", validateReview, async (req, res) => {
   const {
     params: { id },
   } = req;
