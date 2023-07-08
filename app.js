@@ -7,6 +7,7 @@ const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync");
 const ExpressError = require("./utils/ExpressError");
 const { campgroundSchema } = require("./schema");
+const Review = require("./models/review");
 
 // mongoose and mongoDB connection
 mongoose
@@ -124,6 +125,20 @@ app.delete(
     res.redirect("/campgrounds");
   })
 );
+
+app.post("/campgrounds/:id/reviews", async (req, res) => {
+  const {
+    params: { id },
+  } = req;
+  const campground = await Campground.findById(id);
+  const review = new Review(req.body.review);
+
+  campground.reviews.push(review);
+  await review.save();
+  await campground.save();
+
+  res.redirect(`/campgrounds/${campground._id}`);
+});
 
 app.all("*", (req, res, next) => {
   next(new ExpressError("Page Not Found", 404));
