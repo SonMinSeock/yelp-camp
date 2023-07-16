@@ -6,6 +6,7 @@ const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError");
 const campgrounds = require("./routes/campgrounds");
 const reviews = require("./routes/reviews");
+const session = require("express-session");
 
 // mongoose and mongoDB connection
 mongoose
@@ -15,6 +16,16 @@ mongoose
 
 const PORT = 3000;
 const app = express();
+const sessionConfig = {
+  secret: "thisissecretkey",
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+  },
+};
 
 app.engine("ejs", ejsMate);
 app.set("views", path.join(__dirname, "views"));
@@ -23,6 +34,7 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(session(sessionConfig));
 
 // router setting
 app.use("/campgrounds", campgrounds);
