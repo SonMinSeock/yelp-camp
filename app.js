@@ -8,6 +8,9 @@ const campgrounds = require("./routes/campgrounds");
 const reviews = require("./routes/reviews");
 const session = require("express-session");
 const flash = require("connect-flash");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const User = require("./models/user");
 
 // mongoose and mongoDB connection
 mongoose
@@ -37,6 +40,12 @@ app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(session(sessionConfig));
 app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 // custom middleware.
 app.use((req, res, next) => {
@@ -51,6 +60,13 @@ app.use("/campgrounds/:id/reviews", reviews);
 
 app.get("/", (req, res) => {
   res.render("home");
+});
+
+app.get("/fakeUser", async (req, res) => {
+  const user = new User({ email: "test@gmail.com", username: "test" });
+  const newUser = await User.register(user, "12345678");
+
+  res.send(newUser);
 });
 
 app.all("*", (req, res, next) => {
