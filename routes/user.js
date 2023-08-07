@@ -23,9 +23,11 @@ router.post(
 
       const registerUser = await User.register(user, password);
 
-      console.log(registerUser);
-      req.flash("success", "Welcome to Yelp Camp!");
-      res.redirect("/campgrounds");
+      req.login(registerUser, (err) => {
+        if (err) return next(err);
+        req.flash("success", "Welcome to Yelp Camp!");
+        res.redirect("/campgrounds");
+      });
     } catch (err) {
       req.flash("error", err.message);
       res.redirect("/register");
