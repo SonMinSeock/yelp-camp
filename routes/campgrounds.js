@@ -4,6 +4,7 @@ const wrapAsync = require("../utils/wrapAsync");
 const ExpressError = require("../utils/ExpressError");
 const Campground = require("../models/campground");
 const { campgroundSchema } = require("../schema");
+const { isLoggedIn } = require("../middleware");
 
 const validateCampground = (req, res, next) => {
   const result = campgroundSchema.validate(req.body);
@@ -28,6 +29,7 @@ router.get(
 
 router.post(
   "/",
+  isLoggedIn,
   validateCampground,
   wrapAsync(async (req, res, next) => {
     // if ((!req.body, campground))
@@ -41,7 +43,7 @@ router.post(
   })
 );
 
-router.get("/new", (req, res) => {
+router.get("/new", isLoggedIn, (req, res) => {
   res.render("campgrounds/new");
 });
 
@@ -64,6 +66,7 @@ router.get(
 
 router.get(
   "/:id/edit",
+  isLoggedIn,
   wrapAsync(async (req, res) => {
     const {
       params: { id },
@@ -80,6 +83,7 @@ router.get(
 
 router.put(
   "/:id",
+  isLoggedIn,
   validateCampground,
   wrapAsync(async (req, res) => {
     const {
@@ -101,6 +105,7 @@ router.put(
 
 router.delete(
   "/:id",
+  isLoggedIn,
   wrapAsync(async (req, res) => {
     const {
       params: { id },

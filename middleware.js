@@ -1,0 +1,9 @@
+// 사용자 정의 미들웨어
+module.exports.isLoggedIn = (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    req.flash("error", "you must be signed in");
+    res.redirect("/login");
+  }
+
+  next();
+};
