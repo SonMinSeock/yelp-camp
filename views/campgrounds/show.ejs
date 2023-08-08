@@ -9,57 +9,27 @@
       </div>
       <ul class="list-group list-group-flush">
         <li class="list-group-item"><%=campground.location%></li>
+        <li class="list-group-item">Submitted by <%=campground.author.username%></li>
         <li class="list-group-item">$<%=campground.price%>/night</li>
       </ul>
       <div class="card-body">
-        <a
-          href="/campgrounds/<%=campground._id%>/edit"
-          class="card-link btn btn-info text-white"
-          >Edit</a
-        >
-        <form
-          class="d-inline"
-          method="post"
-          action="/campgrounds/<%=campground._id%>?_method=DELETE"
-        >
-          <input
-            type="submit"
-            class="btn btn-danger"
-            value="Delete Campground"
-          />
+        <a href="/campgrounds/<%=campground._id%>/edit" class="card-link btn btn-info text-white">Edit</a>
+        <form class="d-inline" method="post" action="/campgrounds/<%=campground._id%>?_method=DELETE">
+          <input type="submit" class="btn btn-danger" value="Delete Campground" />
         </form>
       </div>
     </div>
   </div>
   <div class="col-6">
     <h2>Leave a Review</h2>
-    <form
-      method="POST"
-      action="/campgrounds/<%=campground._id%>/reviews"
-      class="mb-3 validate-form"
-      novalidate
-    >
+    <form method="POST" action="/campgrounds/<%=campground._id%>/reviews" class="mb-3 validate-form" novalidate>
       <div class="mb-3">
         <label class="form-label" for="rating">Rating</label>
-        <input
-          class="form-range"
-          type="range"
-          min="1"
-          max="5"
-          name="review[rating]"
-          id="rating"
-        />
+        <input class="form-range" type="range" min="1" max="5" name="review[rating]" id="rating" />
       </div>
       <div class="mb-3">
         <label class="form-label" for="body">Review</label>
-        <textarea
-          class="form-control"
-          name="review[body]"
-          id="body"
-          cols="30"
-          rows="3"
-          required
-        ></textarea>
+        <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" required></textarea>
         <div class="valid-feedback">Looks good!</div>
       </div>
       <button class="btn btn-success">Submit</button>
@@ -69,10 +39,7 @@
       <div class="card-body">
         <h5 class="card-title">Rating : <%=review.rating%></h5>
         <p class="card-text">Review : <%=review.body%></p>
-        <form
-          method="POST"
-          action="/campgrounds/<%=campground._id%>/reviews/<%=review._id%>?_method=DELETE"
-        >
+        <form method="POST" action="/campgrounds/<%=campground._id%>/reviews/<%=review._id%>?_method=DELETE">
           <button class="btn btn-sm btn-danger">Delete</button>
         </form>
       </div>
