@@ -40,7 +40,8 @@ router.get(
       params: { id },
     } = req;
 
-    const campground = await Campground.findById(id).populate("reviews").populate("author");
+    const campground = await Campground.findById(id).populate({ path: "reviews", populate: { path: "author" } });
+
     if (!campground) {
       req.flash("error", "Cannot find that Campground");
       return res.redirect("/campgrounds");
