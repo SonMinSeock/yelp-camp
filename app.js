@@ -1,3 +1,11 @@
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+
+console.log(process.env.CLOUDINRY_CLOUS_NAME);
+console.log(process.env.CLOUDINRY_KEY);
+console.log(process.env.CLOUDINRY_SECRET);
+
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
@@ -31,7 +39,6 @@ const sessionConfig = {
     maxAge: 1000 * 60 * 60 * 24 * 7,
   },
 };
-
 app.engine("ejs", ejsMate);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
