@@ -7,6 +7,7 @@
     action="/campgrounds/<%=campground._id%>?_method=PUT"
     novalidate
     class="validate-form"
+    enctype="multipart/form-data"
   >
     <div class="mb-3">
       <label for="title" class="form-label">Title</label>
@@ -33,16 +34,8 @@
       <div class="valid-feedback">Looks good!</div>
     </div>
     <div class="mb-3">
-      <label for="image" class="form-label">Image URL</label>
-      <input
-        type="text"
-        id="image"
-        class="form-control"
-        name="campground[image]"
-        value="<%=campground.image%>"
-        required
-      />
-      <div class="valid-feedback">Looks good!</div>
+      <label for="image" class="form-label">Add Images</label>
+      <input type="file" name="image" id="image" multiple />
     </div>
     <div class="mb-3">
       <label for="price" class="form-label">Campground Price</label>
@@ -64,23 +57,13 @@
     </div>
     <div class="mb-3">
       <label for="description" class="form-label">Description</label>
-      <textarea
-        type="text"
-        id="description"
-        class="form-control"
-        name="campground[description]"
-        required
-      >
+      <textarea type="text" id="description" class="form-control" name="campground[description]" required>
 <%=campground.description%></textarea
       >
       <div class="valid-feedback">Looks good!</div>
     </div>
     <div class="mb-3">
-      <input
-        type="submit"
-        class="btn btn-info text-white"
-        value="Update Campground"
-      />
+      <input type="submit" class="btn btn-info text-white" value="Update Campground" />
     </div>
   </form>
   <a href="/campgrounds/<%=campground._id%>">Back To Campground</a>

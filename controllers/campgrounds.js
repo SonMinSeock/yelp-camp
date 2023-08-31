@@ -63,10 +63,18 @@ module.exports.updateCampground = async (req, res) => {
     params: { id },
   } = req;
 
-  const camp = await Campground.findByIdAndUpdate(id, {
+  const campground = await Campground.findByIdAndUpdate(id, {
     ...req.body.campground,
   });
 
+  const images = req.files.map((file) => ({
+    url: file.path,
+    filename: file.filename,
+  }));
+
+  campground.images.push(...images);
+
+  await campground.save();
   // const campground = await Campground.findByIdAndUpdate(id, {
   //   ...req.body.campground,
   // }, { new: true });
