@@ -21,7 +21,12 @@ const seedDB = async () => {
       author: "64cf7291e1701ad5c1247d1e",
       location: `${cities[random1000].city}, ${cities[random1000].state}`,
       title: `${sample(descriptors)} ${sample(places)}`,
-      image: `https://source.unsplash.com/collection/483251`,
+      images: [
+        {
+          url: "https://res.cloudinary.com/dvpkhjgaf/image/upload/v1693476295/YelpCamp/qbjz1pdqbdrykilqn6ip.png",
+          filename: "YelpCamp/qbjz1pdqbdrykilqn6ip",
+        },
+      ],
       description: "캠핑장 내용",
       price: price,
     });
