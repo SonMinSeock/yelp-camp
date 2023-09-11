@@ -63,6 +63,7 @@ module.exports.updateCampground = async (req, res) => {
     params: { id },
   } = req;
 
+  console.log(req.body);
   const campground = await Campground.findByIdAndUpdate(id, {
     ...req.body.campground,
   });
