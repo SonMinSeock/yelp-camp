@@ -23,12 +23,16 @@ const seedDB = async () => {
       title: `${sample(descriptors)} ${sample(places)}`,
       images: [
         {
-          url: "https://res.cloudinary.com/dvpkhjgaf/image/upload/v1693476295/YelpCamp/qbjz1pdqbdrykilqn6ip.png",
+          url: "https://res.cloudinary.com/dvpkhjgaf/image/upload/v1694478698/YelpCamp/d6mliao8j9f9pfq5zd2o.png",
           filename: "YelpCamp/qbjz1pdqbdrykilqn6ip",
         },
       ],
       description: "캠핑장 내용",
       price: price,
+      geometry: {
+        type: "Point",
+        coordinates: [-113.1331, 47.0202],
+      },
     });
     await camp.save();
   }
